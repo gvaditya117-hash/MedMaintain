@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hospital Maintenance & Planning</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">+</div>
+
+            <div>
+                <h2>MedMaintain</h2>
+                <span>Hospital Operations</span>
+            </div>
+        </div>
+
+        <nav class="navigation">
+
+            <p class="nav-title">MAIN</p>
+
+            <button class="nav-item active" data-page="dashboard">
+                <span>▦</span>
+                <span>Dashboard</span>
+            </button>
+
+            <button class="nav-item" data-page="assets">
+                <span>▣</span>
+                <span>Equipment & Assets</span>
+            </button>
+
+            <button class="nav-item" data-page="maintenance">
+                <span>⚒</span>
+                <span>Maintenance</span>
+            </button>
+
+            <button class="nav-item" data-page="schedule">
+                <span>◷</span>
+                <span>Maintenance Schedule</span>
+            </button>
+
+            <p class="nav-title">MANAGEMENT</p>
+
+            <button class="nav-item" data-page="departments">
+                <span>▤</span>
+                <span>Departments</span>
+            </button>
+
+            <button class="nav-item" data-page="planning">
+                <span>◇</span>
+                <span>Planning</span>
+            </button>
+
+            <button class="nav-item" data-page="alerts">
+                <span>⚠</span>
+                <span>Alerts</span>
+                <span class="nav-badge">4</span>
+            </button>
+
+            <button class="nav-item" data-page="reports">
+                <span>▥</span>
+                <span>Reports</span>
+            </button>
+
+            <p class="nav-title">SYSTEM</p>
+
+            <button class="nav-item" data-page="settings">
+                <span>⚙</span>
+                <span>Settings</span>
+            </button>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>System Online</strong>
+                    <small>Local Storage Active</small>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN AREA ================= -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button class="menu-button" id="menuButton">
+                    ☰
+                </button>
+
+                <div>
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p id="pageSubtitle">
+                        Hospital maintenance overview
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="date-display">
+                    <span>📅</span>
+                    <span id="currentDate"></span>
+                </div>
+
+                <button class="notification-button" id="notificationButton">
+                    🔔
+                    <span class="notification-count">4</span>
+                </button>
+
+                <div class="profile">
+
+                    <div class="profile-avatar">
+                        A
+                    </div>
+
+                    <div class="profile-info">
+                        <strong>Administrator</strong>
+                        <small>Maintenance Manager</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+        <div class="content">
+
+
+            <!-- ================================================= -->
+            <!-- DASHBOARD -->
+            <!-- ================================================= -->
+
+            <section class="page active-page" id="dashboard">
+
+                <div class="welcome-section">
+
+                    <div>
+                        <h2>Good evening, Administrator</h2>
+                        <p>
+                            Here's what's happening across your hospital
+                            maintenance operations today.
+                        </p>
+                    </div>
+
+                    <button class="primary-button" id="quickMaintenanceBtn">
+                        + New Maintenance Request
+                    </button>
+
+                </div>
+
+
+                <!-- KPI CARDS -->
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <div class="stat-icon blue">▣</div>
+
+                        <div class="stat-content">
+                            <span>Total Assets</span>
+                            <strong id="totalAssets">0</strong>
+                            <small class="positive">Hospital inventory</small>
+                        </div>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">✓</div>
+
+                        <div class="stat-content">
+                            <span>Operational</span>
+                            <strong id="operationalAssets">0</strong>
+                            <small class="positive">Currently active</small>
+                        </div>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <div class="stat-icon orange">⚒</div>
+
+                        <div class="stat-content">
+                            <span>Under Maintenance</span>
+                            <strong id="maintenanceAssets">0</strong>
+                            <small class="warning">Requires attention</small>
+                        </div>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <div class="stat-icon red">⚠</div>
+
+                        <div class="stat-content">
+                            <span>Critical Issues</span>
+                            <strong id="criticalAssets">0</strong>
+                            <small class="danger">Immediate attention</small>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- SECONDARY STATS -->
+
+                <div class="secondary-stats">
+
+                    <div class="mini-stat">
+                        <span>Pending Requests</span>
+                        <strong id="pendingRequests">0</strong>
+                    </div>
+
+                    <div class="mini-stat">
+                        <span>Asset Availability</span>
+                        <strong id="assetAvailability">0%</strong>
+                    </div>
+
+                    <div class="mini-stat">
+                        <span>Maintenance Cost</span>
+                        <strong id="maintenanceCost">₹0</strong>
+                    </div>
+
+                    <div class="mini-stat">
+                        <span>Upcoming Maintenance</span>
+                        <strong id="upcomingMaintenance">0</strong>
+                    </div>
+
+                </div>
+
+
+                <!-- CHARTS -->
+
+                <div class="dashboard-grid">
+
+                    <div class="panel chart-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Maintenance Overview</h3>
+                                <p>Current maintenance request status</p>
+                            </div>
+
+                            <select id="maintenanceChartFilter">
+                                <option value="current">Current</option>
+                                <option value="all">All Records</option>
+                            </select>
+
+                        </div>
+
+                        <div class="chart-container">
+                            <canvas id="maintenanceChart"></canvas>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel chart-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Equipment Condition</h3>
+                                <p>Current asset condition</p>
+                            </div>
+
+                        </div>
+
+                        <div class="chart-container">
+                            <canvas id="conditionChart"></canvas>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOWER DASHBOARD -->
+
+                <div class="dashboard-grid lower-grid">
+
+
+                    <!-- UPCOMING MAINTENANCE -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Upcoming Maintenance</h3>
+                                <p>Scheduled maintenance activities</p>
+                            </div>
+
+                            <button class="text-button" data-page-link="schedule">
+                                View All →
+                            </button>
+
+                        </div>
+
+                        <div class="maintenance-list" id="upcomingList">
+
+                            <div class="empty-state">
+                                <span>📅</span>
+                                <p>No maintenance scheduled</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ALERTS -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Critical Alerts</h3>
+                                <p>Issues requiring attention</p>
+                            </div>
+
+                            <button class="text-button" data-page-link="alerts">
+                                View All →
+                            </button>
+
+                        </div>
+
+                        <div class="alert-list" id="criticalAlertList">
+
+                            <div class="empty-state">
+                                <span>✓</span>
+                                <p>No critical alerts</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================================================= -->
+            <!-- OTHER PAGES -->
+            <!-- ================================================= -->
+
+            <section class="page" id="assets">
+
+                <div class="page-header">
+
+                    <div>
+                        <h2>Equipment & Assets</h2>
+                        <p>Manage hospital equipment and infrastructure assets.</p>
+                    </div>
+
+                    <button class="primary-button">
+                        + Add Asset
+                    </button>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="empty-page">
+
+                        <div class="empty-page-icon">▣</div>
+
+                        <h3>Equipment Management</h3>
+
+                        <p>
+                            Equipment inventory will appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="page" id="maintenance">
+
+                <div class="page-header">
+
+                    <div>
+                        <h2>Maintenance Management</h2>
+                        <p>Track and manage maintenance requests.</p>
+                    </div>
+
+                    <button class="primary-button">
+                        + New Request
+                    </button>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="empty-page">
+
+                        <div class="empty-page-icon">⚒</div>
+
+                        <h3>Maintenance Requests</h3>
+
+                        <p>
+                            Maintenance records will appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="page" id="schedule">
+
+                <div class="page-header">
+
+                    <div>
+                        <h2>Maintenance Schedule</h2>
+                        <p>Plan upcoming preventive and corrective maintenance.</p>
+                    </div>
+
+                    <button class="primary-button">
+                        + Schedule Maintenance
+                    </button>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="empty-page">
+
+                        <div class="empty-page-icon">◷</div>
+
+                        <h3>Maintenance Schedule</h3>
+
+                        <p>
+                            Scheduled maintenance will appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="page" id="departments">
+
+                <div class="page-header">
+
+                    <div>
+                        <h2>Departments</h2>
+                        <p>Monitor maintenance requirements by department.</p>
+                    </div>
+
+                    <button class="primary-button">
+                        + Add Department
+                    </button>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="empty-page">
+
+                        <div class="empty-page-icon">▤</div>
+
+                        <h3>Hospital Departments</h3>
+
+                        <p>
+                            Department information will appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="page" id="planning">
+
+                <div class="page-header">
+
+                    <div>
+                        <h2>Planning</h2>
+                        <p>Plan equipment replacement, resources and budgets.</p>
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="empty-page">
+
+                        <div class="empty-page-icon">◇</div>
+
+                        <h3>Maintenance Planning</h3>
+
+                        <p>
+                            Planning information will appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="page" id="alerts">
+
+                <div class="page-header">
+
+                    <div>
+                        <h2>Alerts</h2>
+                        <p>Monitor critical maintenance and equipment alerts.</p>
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="empty-page">
+
+                        <div class="empty-page-icon">⚠</div>
+
+                        <h3>System Alerts</h3>
+
+                        <p>
+                            Alerts will appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="page" id="reports">
+
+                <div class="page-header">
+
+                    <div>
+                        <h2>Reports & Analytics</h2>
+                        <p>Analyze hospital maintenance performance.</p>
+                    </div>
+
+                    <button class="secondary-button" onclick="window.print()">
+                        🖨 Print Report
+                    </button>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="empty-page">
+
+                        <div class="empty-page-icon">▥</div>
+
+                        <h3>Reports</h3>
+
+                        <p>
+                            Reports and analytics will appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="page" id="settings">
+
+                <div class="page-header">
+
+                    <div>
+                        <h2>Settings</h2>
+                        <p>Manage application preferences and local data.</p>
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="empty-page">
+
+                        <div class="empty-page-icon">⚙</div>
+
+                        <h3>System Settings</h3>
+
+                        <p>
+                            Application settings will appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- ================= MOBILE OVERLAY ================= -->
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="app.js"></script>
+
+</body>
+</html>
